@@ -41,7 +41,7 @@
                     @Html.DisplayFor(modelItem => item.TeacherName)
                 </td>
                 <td>
-                    <a asp-page="/Student/Index" asp-page-handler="Index" asp-route-id="@item.Id">Select</a> |
+                    <a asp-page="/Student/Index"  asp-route-id="@item.Id">Select</a> |
                     <a asp-page="./Create" asp-route-id="@item.Id">Edit</a> |
                     <a href="#" onclick="confirmDeleteRoom(@item.Id)">Delete</a>
                 </td>

@@ -69,7 +69,7 @@ namespace WebClassStudent.Pages.Student
 
             if (student.id.HasValue == true)
             {
-                studentItem = await _context.Students.Where(d => d.Id ==student.id).FirstOrDefaultAsync();
+                studentItem = await _context.Students.Where(d => d.Id == student.id).FirstOrDefaultAsync();
               studentItem=  _mapper.Map<DataClassStudent.Student>(student);
                
             }

@@ -42,13 +42,26 @@ namespace WebClassStudent
                     logger.LogError(ex, "An error occurred creating the DB.");
                 }
             }
+
+
+
+
+
+
+
             host.Run();
 
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        WebHost.CreateDefaultBuilder(args)
+               .UseStartup<Startup>().ConfigureKestrel((context, options) =>
+               {
+                   options.Limits.MaxConcurrentConnections = long.MaxValue;
+                   options.Limits.MaxConcurrentUpgradedConnections = long.MaxValue;
+
+               }).UseUrls("http://localhost:5050");
+
 
 
 
