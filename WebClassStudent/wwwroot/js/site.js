@@ -2,3 +2,10 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your Javascript code.
+
+
+function deleteRow(id) {
+
+    var row = document.getElementById(id);
+    row.parentNode.removeChild(row);
+}

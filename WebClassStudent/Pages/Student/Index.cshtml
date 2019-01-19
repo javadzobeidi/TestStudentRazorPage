@@ -1,0 +1,107 @@
+﻿@page "{id?}"
+@model WebClassStudent.Pages.Students.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<h2>@Model.classRoom.className</h2>
+<p>
+    <a asp-page="./Create" asp-route-id="@Model.classRoom.id">Create </a>
+
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Student Name
+            </th>
+            <th>
+                Age
+
+            </th>
+            <th>
+                GPA
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.classRoom.students)
+        {
+            <tr id="row_@item.Id" class='@(item.Gpa>3.2?"table-primary":"")'>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gpa)
+                </td>
+                <td>
+                    <a asp-page="/Student/Edit"  asp-route-id="@item.Id">Edit</a> |
+                    <a href="#" onclick="confirmDeleteStudent(@item.Id)">Delete</a>
+                </td>
+            </tr>
+
+
+        }
+
+
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+
+        function deleteStudent(id) {
+            $.get("/Student/"+id+"?handler=DeleteStudent", function (data) {
+
+                if (data == 'OK') {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your Room has been deleted.',
+                        'success'
+                    )
+                    deleteRow("row_" + id);
+
+                }
+
+
+            });
+
+        }
+        function confirmDeleteStudent(id) {
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value)
+                    deleteStudent(id);
+
+            })
+
+        }
+
+    </script>
+
+
+}
+

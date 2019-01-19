@@ -1,0 +1,113 @@
+﻿@page "{handler?}"
+@model WebClassStudent.Pages.ClassRooms.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<h2>Index</h2>
+<p>
+    <a asp-page="/ClassRooms/Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Class Name
+            </th>
+            <th>
+                Location
+
+            </th>
+            <th>
+                Teacher Name
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.rooms)
+        {
+            <tr id="row_@item.Id">
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeacherName)
+                </td>
+                <td>
+                    <a asp-page="/Student/Index" asp-page-handler="Index" asp-route-id="@item.Id">Select</a> |
+                    <a asp-page="./Create" asp-route-id="@item.Id">Edit</a> |
+                    <a href="#" onclick="confirmDeleteRoom(@item.Id)">Delete</a>
+                </td>
+            </tr>
+
+
+        }
+
+
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+
+        function deleteRow(id) {
+
+            var row = document.getElementById(id);
+            row.parentNode.removeChild(row);
+        }
+
+        function deleteRoom(id) {
+
+            $.get("/ClassRooms/index/DeleteClassRoom?id=" + id, function (data) {
+                var rowid = "row_" + id;
+                if (data == 'OK') {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your Room has been deleted.',
+                        'success'
+                    )
+                    alert("row_" + id);
+                    deleteRow("row_" + id);
+                  
+                }
+                    else
+                    Swal.fire(
+                        'Error!',
+                        data,
+                        'error'
+                    )
+                
+
+            });
+     
+        }
+        function confirmDeleteRoom(id) {
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+               if (result.value)
+                deleteRoom(id);
+                
+            })
+
+        }
+
+    </script>
+
+
+}
+

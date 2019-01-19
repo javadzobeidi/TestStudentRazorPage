@@ -1,0 +1,45 @@
+﻿@page "{id:int?}"
+
+
+@model WebClassStudent.Pages.Student.CreateModel
+
+@{
+
+}
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="student.classRoomId" />
+
+
+            <div class="form-group">
+                <label asp-for="student.studentName" class="control-label"></label>
+                <input asp-for="student.studentName" class="form-control" />
+                <span asp-validation-for="student.studentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="student.age" class="control-label"></label>
+                <input asp-for="student.age" class="form-control" />
+                <span asp-validation-for="student.age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="student.gpa" class="control-label"></label>
+                <input asp-for="student.gpa" class="form-control" />
+                <span asp-validation-for="student.gpa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <input type="submit" value='@(Model.student!=null && Model.student.id.HasValue==true?"Update":"Create")' class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
